@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Common helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Products: Anyone can read, only admin can write (simulated for this demo)
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if false; // Only via console/admin
+    }
+
+    // Reviews: Anyone can read, signed in can create
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isSignedIn() && 
+        request.resource.data.keys().hasAll(['userName', 'rating', 'comment', 'createdAt']) &&
+        request.resource.data.rating >= 1 && request.resource.data.rating <= 5;
+    }
+
+    // Custom Requests: User can read/write their own
+    match /custom_requests/{requestId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Subscribers: Anyone can create
+    match /subscribers/{email} {
+      allow create: if request.resource.data.keys().hasAll(['firstName', 'lastName', 'email', 'subscribedAt']);
+    }
+  }
+}

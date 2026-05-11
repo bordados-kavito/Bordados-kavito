@@ -1,0 +1,12 @@
+{
+  "name": "Bordados Kavito",
+  "description": "Plataforma premium de digitalización de bordados profesionales y servicios de IA con tecnología Wilcom E4.2.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "AI-powered embroidery simulation",
+    "Digital marketplace",
+    "Custom embroidery digitization"
+  ]
+}

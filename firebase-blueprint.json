@@ -1,0 +1,84 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Embroidery Product",
+      "description": "A digitized embroidery design available for purchase.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "category": { "type": "string" },
+        "image": { "type": "string" },
+        "formats": { "type": "array", "items": { "type": "string" } },
+        "dimensions": { "type": "string" },
+        "stitchCount": { "type": "number" },
+        "isPremium": { "type": "boolean" },
+        "isFree": { "type": "boolean" }
+      },
+      "required": ["name", "price", "image", "category"]
+    },
+    "Review": {
+      "title": "Product Review",
+      "description": "User review with rating and optional image.",
+      "type": "object",
+      "properties": {
+        "userName": { "type": "string" },
+        "userAvatar": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "videoUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userName", "rating", "comment", "createdAt"]
+    },
+    "CustomDigitization": {
+      "title": "Custom Digitization Request",
+      "description": "A request for a custom embroidery design.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "image": { "type": "string" },
+        "size": { "type": "string" },
+        "format": { "type": "string" },
+        "instructions": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "processing", "completed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "paymentId": { "type": "string" }
+      },
+      "required": ["image", "size", "format", "createdAt"]
+    },
+    "Subscriber": {
+      "title": "Newsletter Subscriber",
+      "description": "User subscribed to promotions.",
+      "type": "object",
+      "properties": {
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "subscribedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["firstName", "lastName", "email", "subscribedAt"]
+    }
+  },
+  "firestore": {
+    "products": {
+      "schema": "Product",
+      "description": "Store for digital embroidery designs."
+    },
+    "reviews": {
+      "schema": "Review",
+      "description": "Player/Customer feedback."
+    },
+    "custom_requests": {
+      "schema": "CustomDigitization",
+      "description": "User uploads for professional digitization."
+    },
+    "subscribers": {
+      "schema": "Subscriber",
+      "description": "Newsletter mailing list."
+    }
+  }
+}
