@@ -1,9 +1,13 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// Usamos import.meta.env que es lo que entiende Vite en internet
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || ""; 
+const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
 
 export async function transformToEmbroidery(base64Image: string) {
-  // We use the specific prompt provided by the user
+  // We use the specific prompt provided by the user if (!genAI) {
+    throw new Error("La función de IA de Bordados Kavito requiere una configuración de seguridad (API KEY) para funcionar en vivo.");
+  }
   const internalPrompt = `[(Transform the original photo into an ultra realistic machine embroidery digitized design created in authentic Wilcom E4.2 style.
 The final image must look exactly like a real embroidery simulation preview from professional embroidery digitizing software and an actual embroidered sample sewn by an industrial embroidery machine.
 Preserve the exact pose, proportions, colors, climbing gear, backpack, ice axe, ropes, boots, and frozen mountain environment from the original photo.
